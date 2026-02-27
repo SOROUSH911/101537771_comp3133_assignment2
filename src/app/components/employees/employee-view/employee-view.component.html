@@ -1,0 +1,119 @@
+@if (loading) {
+  <div class="loading-container">
+    <mat-spinner diameter="40" />
+    <p>Loading employee details...</p>
+  </div>
+}
+
+@if (!loading && employee) {
+  <div class="view-container">
+    <mat-card class="view-card">
+      <!-- Header with photo and basic info -->
+      <div class="employee-header">
+        <div class="photo-section">
+          @if (employee.employee_photo) {
+            <img [src]="employee.employee_photo" [alt]="employee.first_name" class="employee-photo" />
+          } @else {
+            <div class="photo-placeholder">
+              {{ employee.first_name[0] }}{{ employee.last_name[0] }}
+            </div>
+          }
+        </div>
+        <div class="header-info">
+          <h2>{{ employee.first_name }} {{ employee.last_name }}</h2>
+          <p class="designation">{{ employee.designation }}</p>
+          <mat-chip-set>
+            <mat-chip highlighted>{{ employee.department }}</mat-chip>
+            <mat-chip>{{ employee.gender }}</mat-chip>
+          </mat-chip-set>
+        </div>
+      </div>
+
+      <mat-divider />
+
+      <!-- Detail Grid -->
+      <div class="detail-grid">
+        <div class="detail-item">
+          <div class="detail-label">
+            <mat-icon>email</mat-icon>
+            Email
+          </div>
+          <div class="detail-value">{{ employee.email }}</div>
+        </div>
+
+        <div class="detail-item">
+          <div class="detail-label">
+            <mat-icon>work</mat-icon>
+            Designation
+          </div>
+          <div class="detail-value">{{ employee.designation }}</div>
+        </div>
+
+        <div class="detail-item">
+          <div class="detail-label">
+            <mat-icon>business</mat-icon>
+            Department
+          </div>
+          <div class="detail-value">{{ employee.department }}</div>
+        </div>
+
+        <div class="detail-item">
+          <div class="detail-label">
+            <mat-icon>attach_money</mat-icon>
+            Salary
+          </div>
+          <div class="detail-value salary">{{ employee.salary | salary }}</div>
+        </div>
+
+        <div class="detail-item">
+          <div class="detail-label">
+            <mat-icon>wc</mat-icon>
+            Gender
+          </div>
+          <div class="detail-value">{{ employee.gender }}</div>
+        </div>
+
+        <div class="detail-item">
+          <div class="detail-label">
+            <mat-icon>calendar_today</mat-icon>
+            Date of Joining
+          </div>
+          <div class="detail-value">{{ employee.date_of_joining | date:'longDate' }}</div>
+        </div>
+
+        @if (employee.created_at) {
+          <div class="detail-item">
+            <div class="detail-label">
+              <mat-icon>schedule</mat-icon>
+              Created
+            </div>
+            <div class="detail-value">{{ employee.created_at | date:'medium' }}</div>
+          </div>
+        }
+
+        @if (employee.updated_at) {
+          <div class="detail-item">
+            <div class="detail-label">
+              <mat-icon>update</mat-icon>
+              Last Updated
+            </div>
+            <div class="detail-value">{{ employee.updated_at | date:'medium' }}</div>
+          </div>
+        }
+      </div>
+
+      <!-- Actions -->
+      <mat-divider />
+      <div class="view-actions">
+        <button mat-stroked-button (click)="goBack()">
+          <mat-icon>arrow_back</mat-icon>
+          Back to List
+        </button>
+        <button mat-raised-button color="primary" (click)="editEmployee()">
+          <mat-icon>edit</mat-icon>
+          Edit Employee
+        </button>
+      </div>
+    </mat-card>
+  </div>
+}

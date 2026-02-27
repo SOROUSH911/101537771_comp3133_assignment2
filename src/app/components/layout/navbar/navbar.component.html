@@ -1,0 +1,19 @@
+<mat-toolbar color="primary" class="navbar">
+  <div class="navbar-brand" routerLink="/">
+    <mat-icon>business</mat-icon>
+    <span class="app-title">Employee Manager</span>
+  </div>
+
+  <span class="spacer"></span>
+
+  @if (isLoggedIn) {
+    <span class="welcome-text">Welcome, {{ username }}</span>
+    <button mat-icon-button routerLink="/employees" matTooltip="Employee List">
+      <mat-icon>people</mat-icon>
+    </button>
+    <button mat-raised-button class="logout-btn" (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      Logout
+    </button>
+  }
+</mat-toolbar>
