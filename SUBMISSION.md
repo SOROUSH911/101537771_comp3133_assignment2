@@ -121,12 +121,12 @@ Before submitting:
 ### What to submit on D2L:
 
 1. **GitHub Repository Links:**
-   - Frontend: `https://github.com/YOUR_USERNAME/101537771_comp3133_assignment2`
-   - Backend: `https://github.com/YOUR_USERNAME/COMP3133_101537771_Assignment1`
+   - Frontend: `https://github.com/SOROUSH911/101537771_comp3133_assignment2`
+   - Backend: `https://github.com/SOROUSH911/COMP3133_101537771_Assignment1`
 
 2. **Deployed Application Links:**
-   - Frontend: `https://your-frontend-url.vercel.app`
-   - Backend: `https://your-backend-url.onrender.com/graphql`
+   - Frontend: `https://101537771comp3133assignment2.vercel.app`
+   - Backend: `https://comp3133-101537771-backend.vercel.app/graphql`
 
 3. **Screenshots Document** (single file with all screenshots)
 

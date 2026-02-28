@@ -52,6 +52,12 @@ npm test
 npm run build
 ```
 
+## Deployed Links
+
+- **Frontend:** https://101537771comp3133assignment2.vercel.app
+- **Backend:** https://comp3133-101537771-backend.vercel.app/graphql
+- **GitHub:** https://github.com/SOROUSH911/101537771_comp3133_assignment2
+
 ## Project Structure
 
 ```
