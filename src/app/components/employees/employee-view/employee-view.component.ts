@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -35,6 +35,7 @@ export class EmployeeViewComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly employeeService = inject(EmployeeService);
   private readonly snackBar = inject(MatSnackBar);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   employee: Employee | null = null;
   loading = true;
@@ -51,9 +52,11 @@ export class EmployeeViewComponent implements OnInit {
       next: (employee) => {
         this.employee = employee;
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         this.loading = false;
+        this.cdr.detectChanges();
         this.snackBar.open('Failed to load employee details', 'Close', { duration: 5000 });
         this.router.navigate(['/employees']);
       },

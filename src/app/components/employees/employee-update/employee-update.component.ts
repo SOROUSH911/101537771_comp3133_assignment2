@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -41,6 +41,7 @@ export class EmployeeUpdateComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly employeeService = inject(EmployeeService);
   private readonly snackBar = inject(MatSnackBar);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   employeeForm: FormGroup = this.fb.group({
     first_name: ['', [Validators.required]],
@@ -86,9 +87,11 @@ export class EmployeeUpdateComponent implements OnInit {
           this.imagePreview = employee.employee_photo;
         }
         this.pageLoading = false;
+        this.cdr.detectChanges();
       },
       error: () => {
         this.pageLoading = false;
+        this.cdr.detectChanges();
         this.snackBar.open('Failed to load employee', 'Close', { duration: 5000 });
         this.router.navigate(['/employees']);
       },
@@ -136,9 +139,11 @@ export class EmployeeUpdateComponent implements OnInit {
       delete formValue.employee_photo;
     }
 
+    this.cdr.detectChanges();
     this.employeeService.updateEmployee(this.employeeId, formValue).subscribe({
       next: () => {
         this.loading = false;
+        this.cdr.detectChanges();
         this.snackBar.open('Employee updated successfully!', 'Close', {
           duration: 3000,
           panelClass: ['success-snackbar'],
@@ -147,6 +152,7 @@ export class EmployeeUpdateComponent implements OnInit {
       },
       error: (err) => {
         this.loading = false;
+        this.cdr.detectChanges();
         const message = err?.message || 'Failed to update employee';
         this.snackBar.open(message, 'Close', {
           duration: 5000,

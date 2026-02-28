@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -48,6 +48,7 @@ export class EmployeeListComponent implements OnInit {
   private readonly snackBar = inject(MatSnackBar);
   private readonly dialog = inject(MatDialog);
   private readonly router = inject(Router);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   employees: Employee[] = [];
   displayedColumns = ['employee_photo', 'name', 'email', 'department', 'designation', 'salary', 'actions'];
@@ -62,13 +63,16 @@ export class EmployeeListComponent implements OnInit {
 
   loadEmployees(): void {
     this.loading = true;
+    this.cdr.detectChanges();
     this.employeeService.getAllEmployees().subscribe({
       next: (employees) => {
         this.employees = employees;
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         this.loading = false;
+        this.cdr.detectChanges();
         this.snackBar.open('Failed to load employees', 'Close', { duration: 5000 });
       },
     });
@@ -81,6 +85,7 @@ export class EmployeeListComponent implements OnInit {
     }
 
     this.loading = true;
+    this.cdr.detectChanges();
     const designation = this.searchType === 'designation' ? this.searchTerm : undefined;
     const department = this.searchType === 'department' ? this.searchTerm : undefined;
 
@@ -88,12 +93,14 @@ export class EmployeeListComponent implements OnInit {
       next: (employees) => {
         this.employees = employees;
         this.loading = false;
+        this.cdr.detectChanges();
         if (employees.length === 0) {
           this.snackBar.open('No employees found matching your search', 'Close', { duration: 3000 });
         }
       },
       error: (err) => {
         this.loading = false;
+        this.cdr.detectChanges();
         this.snackBar.open('Search failed', 'Close', { duration: 5000 });
       },
     });

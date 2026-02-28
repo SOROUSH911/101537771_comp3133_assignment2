@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RouterLink, Router } from '@angular/router';
@@ -34,6 +34,7 @@ export class LoginComponent {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
   private readonly snackBar = inject(MatSnackBar);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   loginForm: FormGroup = this.fb.group({
     usernameOrEmail: ['', [Validators.required, Validators.minLength(3)]],
@@ -50,11 +51,13 @@ export class LoginComponent {
     }
 
     this.loading = true;
+    this.cdr.detectChanges();
     const { usernameOrEmail, password } = this.loginForm.value;
 
     this.authService.login(usernameOrEmail, password).subscribe({
       next: () => {
         this.loading = false;
+        this.cdr.detectChanges();
         this.snackBar.open('Login successful!', 'Close', {
           duration: 3000,
           panelClass: ['success-snackbar'],
@@ -63,6 +66,7 @@ export class LoginComponent {
       },
       error: (err) => {
         this.loading = false;
+        this.cdr.detectChanges();
         const message = err?.message || err?.graphQLErrors?.[0]?.message || 'Login failed';
         this.snackBar.open(message, 'Close', {
           duration: 5000,
